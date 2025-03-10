@@ -111,7 +111,9 @@ class User_login(Customer):
                         if g in c:
                             info[g] = c[g]
                     print(info)
+                    self.services_user_list()
                     break
+                    
             else:
                 print("Entre Valid Value")
         except Exception as e:
@@ -132,7 +134,7 @@ class User_login(Customer):
             case "3":
                 return 
             case "4":
-                customer_login.new_customer()
+                return Customer.new_customer(self)
             #type_ser = "Q"
 
 
@@ -148,4 +150,4 @@ class User_login(Customer):
 # c.new_customer()
 l=User_login()
 l.login()
-l.services_user_list()
+
