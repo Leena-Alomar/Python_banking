@@ -22,14 +22,6 @@ class Customer():
             new_account_last_name = None
             new_account_pass = None
             random_id = random.randint(10000, 99999)
-            # for l in list_customers:
-            #     if random_id == l['account_id']:
-            #         if 'checking'==None:
-            #             print("checking")  
-            #         else:
-            #             print("savings")
-            #         break
-            # else:
             type_responses = ["1", "2", "Q"]
             account_types = { "1": "Checking Account", "2": "Savings Account" }
             while new_account_type == None and new_account_type not in type_responses:
@@ -48,13 +40,16 @@ class Customer():
     def new_acc_type(self,account_id):
         list_customers = read_csv()
         for l in list_customers:
-            if l[account_id] == account_id: 
-                  if  l.get('checking') == "":
-                    print("c")
-
-                  else:
-                    print("s")
-                    break
+            if l['account_id'] == account_id:
+                if l['checking'] == "":
+                    l['checking'] = 0
+                    print("Your Checking Account Has Been Created")
+                  
+                else:
+                    l['savings'] = 0
+                    print("Your Savings Account Has Been Created")
+                break
+        save_changes(l)
 
 # 1.1 Seed Data to CSV
 customers_info = [
@@ -109,6 +104,13 @@ def add_new_row(random_id, type_acct, first_name, last_name, password):
     except csv.Error as e:
         print(e)
 
+def save_changes(n):
+      with open("banking.csv", "a+") as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writerow(n)
+            
+
+
 class User_login(Customer):
     def __init__(self):
         super().__init__()
@@ -132,6 +134,7 @@ class User_login(Customer):
                         if g in c:
                             info[g] = c[g]
                     print(info)
+                    self.user_id = login_account_id
                     self.services_user_list()
                     break
             else:
@@ -148,9 +151,9 @@ class User_login(Customer):
             services_type = input(f"Now What Kind of Services Would You Like to Do?  1 - {offer_services['1']}, 2 - {offer_services['2']}, 3 - {offer_services['3']}, 4 - {offer_services['4']}:")      
         match services_type:
             case "1":
-                return Withdraw.user_withdraw(self) 
+                return Withdraw.user_withdraw(self,self.user_id) 
             case "2":
-                return 
+                return Deposit.user_deposit(self,self.user_id) 
             case "3":
                 return 
             case "4":
@@ -160,18 +163,60 @@ class User_login(Customer):
 
 
    
-# class Withdraw():
-#     def __init__(self):
-#      super().__init__(self)
-#     def user_withdraw(self):
-#         try:
-#             user_responses= type_responses
-#             user_responses= ["1", "2", "Q"]
-#             account_types = { "1": "Checking Account", "2": "Savings Account" }
-#             while new_account_type == None and new_account_type not in user_responses:
+class Withdraw():
+    def __init__(self):
+        pass  
+    def user_withdraw(self, account_id): 
+        cu_list = read_csv()
+        try: 
+            acco_type = input("What Type of Account Would You Like to Withdraw To? : 1-Checking 2-Savings :")
+            
+            for i in cu_list:
+                if acco_type == "1":
+                    if i['account_id'] == account_id and i['checking'] != "":
+                        withdraw_input = input("Please Enter The Amount of Money You Would Like To Withdraw:")
+                        i['checking'] -= withdraw_input
+                        print("Your Checking Account Has Been Updated")
+                        break
+                else:
+                    if i['account_id'] == account_id and i['savings'] != "":
+                        withdraw_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
+                        i['savings'] -= withdraw_input
+                        print("Your Checking Account Has Been Updated")
+                        break
 
-#         except Exception as e:
-#                     print(e) 
+            save_changes(i)       
+
+        except Exception as e:
+            print(e)
+
+class Deposit():
+    def __init__(self):
+        pass  
+
+    def user_deposit(self, account_id): 
+        customers_list = read_csv()
+        try: 
+            account_type = input("What Type of Account Would You Like to Deposit To? : 1-Checking 2-Savings :")
+            
+            for i in customers_list:
+                if account_type == "1":
+                    if i['account_id'] == account_id and i['checking'] != "":
+                        money_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
+                        i['checking'] += money_input
+                        print("Your Checking Account Has Been Updated")
+                        break
+                else:
+                    if i['account_id'] == account_id and i['savings'] != "":
+                        money_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
+                        i['savings'] += money_input
+                        print("Your Checking Account Has Been Updated")
+                        break
+
+            save_changes(i)       
+
+        except Exception as e:
+            print(e)
 
 
 
