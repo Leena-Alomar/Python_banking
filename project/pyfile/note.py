@@ -126,7 +126,7 @@ class Deposit(customer,user_login):
      def deposit_money(self,account_type,user_id,user_login,services_list,money_input,savings_amount,checking_amount,both_amount,deposit_type):
         if services_list =="2":
             money_input = input("How much would you like to add?:") 
-            deposit_type = input("what type of account would you like to deposit? (1-checking account 2-saving account 3-both): ")
+            deposit_type = input( "what type of account would you like to deposit? (1-checking account 2-saving account 3-both): ")
             if deposit_type == "1":
                 savings_amount += money_input
                 print (f'Your current amount of money is: {savings_amount}')
@@ -218,7 +218,23 @@ user1.login()
 
 
 
-
+   # def user_deposit(self, account_id): 
+    #     customers_list = read_csv()
+    #     try: 
+    #         account_type = input("What Type of Account Would You Like to Deposit To? : 1-Checking 2-Savings :")
+            
+    #         for i in customers_list:
+    #             if account_type == "1":
+    #                 if i['account_id'] == account_id and i['checking'] != "":
+    #                     money_input = input("Please Enter The Amount of Money You Would Like To Deposit :")
+    #                     i['checking'] = int(i['checking']) + int(money_input)
+    #                     print("Your Checking Account Has Been Updated , This is Your Current Balance :")
+    #                     print(i['checking'])       
+    #                     break
+    #             elif account_type == "2":
+    #                 if i['account_id'] == account_id and i['savings'] != "":
+    #                     money_input = input("Please Enter The Amount of Money You Would Like To Deposit :")
+    #                     i['savings'] =  int(i['savings']) + int(money_input)
 
 
 """
@@ -239,7 +255,45 @@ user1.login()
 
 
 
-
+ # transfer_from = input("What Type of Account Would You Like to Transfer To? : 1-Checking 2-Savings :")
+            
+            # for s in lists:
+            #     if transfer_from == "1":
+            #         if s['account_id'] == account_id and s['checking'] != "":
+            #             transfer_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
+            #             s['checking'] = int(s['checking']) - int(transfer_input)
+            #             transfer_to = input("What Type of Account Would You Like to Transfer To? : 1-Checking 2-Savings :")
+            #             if transfer_to =="1"
+            #                 if s['account_id'] == account_id and s['checking'] != "":
+            #                     s['checking'] = int(s['checking']) + int(tranfer_input)
+            #                     print("The Amount of Money is Transferd")
+            #             elif transfer_from == "2":
+            #                 if s['account_id'] == account_id and s['savings'] != "":
+            #                     s['savings'] =  int(s['savings']) + int(tranfer_input)
+            #                     print("The Amount of Money is Transferd")
+            #             else:
+            #                 print("Please Entre a Valid Input")
+                                
+                                
+                                
+            #             break
+            #     elif transfer_from == "2":
+            #         if s['account_id'] == account_id and s['savings'] != "":
+            #             tranfer_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
+            #             s['savings'] =  int(s['savings']) - int(tranfer_input)
+            #                  transfer_to = input("What Type of Account Would You Like to Transfer To? : 1-Checking 2-Savings :")
+            #             if transfer_to =="1"
+            #                 if s['account_id'] == account_id and s['checking'] != "":
+            #                     s['checking'] = int(s['checking']) + int(tranfer_input)
+            #                     print("The Amount of Money is Transferd")
+            #             elif transfer_from == "2":
+            #                 if s['account_id'] == account_id and s['savings'] != "":
+            #                     s['savings'] =  int(s['savings']) + int(tranfer_input)
+            #                     print("The Amount of Money is Transferd")
+            #             else:
+            #                 print("Please Entre a Valid Input")
+            #     else:
+            #         print("Please Entre a Valid Input")
 
 
 

@@ -1,51 +1,54 @@
 import unittest
-from banking import customer, 
+from banking import Customer,User_login,Withdraw,Deposit,Transfer
 
-class TestCustomer(unittest.TestCase):
-     def test_new_customer(self):
-        c=customer()
-        result = c.new_customer("" )
-        self.assertEqual(result)
+class CustomerTest(unittest.TestCase):
+    def __init__(self):
 
-     def test_store_data(self):
-        c=customer()
-        result = c.store_data("" )
-        self.assertEqual(result)
+    def test_display_msg(self):
+   
 
-      def test_login(self):
-        c=customer()
-        result = c.login("" )
-        self.assertEqual(result)
-    
-     def test_reset_pass(self):
-        c=customer()
-        result = c.reset_pass("" )
-        self.assertEqual(result)
+    def test_new_customer(self):
+       
 
-     def test_account_withdraw(self):
-        c=customer()
-        result = c.account_withdraw("" )
-        self.assertEqual(result)
-
-    
-     def test_deposit_money(self):
-        c=customer()
-        result = c.deposit_money("" )
-        self.assertEqual(result)
-
-    
-     def test_transfer_money(self):
-        c=customer()
-        result = c.transfer_money("" )
-        self.assertEqual(result)
-    
-     def test_overdraft_money(self):
-        c=customer()
-        result = c.overdraft_money("" )
-        self.assertEqual(result)
-    
+    def test_new_acc_type(self,account_id):
+     
+def test_read_csv():
+ 
+def test_add_new_row(random_id, type_acct, first_name, last_name, password):
     
 
+
+class Test_User_login(unittest.TestCase):
+    def __init__(self):
+        super().__init__()
+     
+
+    def test_login(self):
+        
+
+    def test_services_user_list(self):
+      
+
+class Test_Withdraw(unittest.TestCase):
+    def __init__(self):
+     
+    def test_user_withdraw(self, account_id): 
+ 
+      
+            
+
+class Test_Deposit(unittest.TestCase):
+    def __init__(self):
+          
+    def test_user_deposit(self, account_id): 
+      
+
+class Test_Transfer(unittest.TestCase):
+    def __init__(self):
+ 
+
+    def test_user_Transfer(self, account_id): 
+          
 if __name__ == '__main__':
     unittest.main()
 
