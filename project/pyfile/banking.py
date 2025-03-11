@@ -148,10 +148,10 @@ class User_login(Customer):
     def services_user_list(self):
         self.customer_login = Customer
         services_type = None
-        services_respone = ["1", "2", "3", "4", "Q"]
-        offer_services = { "1": "Withdraw", "2": "Deposit", "3": "Transfer", "4": "Create New Account" }
+        services_respone = ["1", "2", "3", "4","5", "Q"]
+        offer_services = { "1": "Withdraw", "2": "Deposit", "3": "Transfer", "4": "Create New Account", "5": "Check Overdraft" }
         while services_type == None and services_type not in services_respone:
-            services_type = input(f"Now What Kind of Services Would You Like to Do?  1 - {offer_services['1']}, 2 - {offer_services['2']}, 3 - {offer_services['3']}, 4 - {offer_services['4']} :")      
+            services_type = input(f"Now What Kind of Services Would You Like to Do?  1 - {offer_services['1']}, 2 - {offer_services['2']}, 3 - {offer_services['3']}, 4 - {offer_services['4']}, 5 - {offer_services['5']} :")      
         match services_type:
             case "1":
                 return Withdraw.user_withdraw(self,self.user_id) 
@@ -161,7 +161,8 @@ class User_login(Customer):
                 return Transfer.user_Transfer(self,self.user_id)
             case "4":
                 return Customer.new_acc_type(self,self.user_id)
-        return Overdraft.user_overdraft(self,self.user_id)  
+            case "5":
+                return Overdraft.user_overdraft(self,self.user_id)  
 
 class Withdraw():
     def __init__(self):
@@ -234,7 +235,7 @@ class Transfer():
             }
             tranfer_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
             transfer_from=input("What Type of Account Would You Like to Transfer To? : 1-Checking 2-Savings :")
-            while transfer_from is not None and transfer_from == re_type:
+            while transfer_from is not None and transfer_from in re_type:
                 tr_from = re_type[transfer_from]
                 for s in lists:
                     if s['account_id'] == account_id and s[tr_from] != "":
@@ -259,24 +260,30 @@ class Overdraft():
         lists = read_csv()
         count = 0
         try: 
-            de_type={
+            o_type={
                 "1": "checking",
                 "2": "savings",
             }
-            de_from = de_type[deposit_from]
-            for s in lists:
-                if s['account_id'] == account_id and s[de_from] != "":
-                    if s[de_from] < 0:
-                        s[de_from]= int(s[de_from]) - 35
-                        count += 1        
-                        print("You are chared with fee of 35$")
-                        for c in count:
-                            if c>2:
-                                print("Your account have been deactivate") 
-                                if s[de_from] == 0:
-                                    print("Your account have been activated")     
-                                    break
-                           
+            
+            overdraft_check=input("What Type of Account Would You Like to Check the Overdraft? : 1-Checking 2-Savings :")
+            while overdraft_check is not None and overdraft_check in o_type:
+                over = o_type[overdraft_check]
+                for s in lists:
+                    if s['account_id'] == account_id and s[over] != "":
+                        if int(s[over]) < 0:
+                            s[over]= int(s[over]) - 35      
+                            print("You are chared with fee of 35$")
+                            
+                            if int(s[over]) < -70:
+                                print("Your account have been deactivate")
+                                # s['status'] = 'deactive'
+                                break
+                        else:
+                            print("Your account have been activated")
+                                # s['status'] = 'active'
+                            break
+            else:
+                print("Entre a Valid Input")  
             save_changes(s) 
                     
         except Exception as e:
