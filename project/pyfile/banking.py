@@ -179,11 +179,14 @@ class Withdraw():
             while withdraw_from is not None and withdraw_from in wi_type:
                 wi_from = wi_type[withdraw_from]
                 for s in lists:
-                    if s['account_id'] == account_id and s[wi_from] != "":
-                        s[wi_from]= int(s[wi_from]) - int(withdraw_input)
-                        print("Your Account Has Been Updated , This is Your Current Balance :")
-                        print(s[wi_from])      
-                        break
+                    if int(withdraw_input) <= 100 and int(s[wi_from]) >= 0:
+                        if s['account_id'] == account_id and s[wi_from] != "":
+                            s[wi_from]= int(s[wi_from]) - int(withdraw_input)
+                            print("Your Account Has Been Updated , This is Your Current Balance :")
+                            print(s[wi_from])      
+                            break
+                        else:
+                            print("Please Entre a Valid Input")
                 else:
                     print("Please Entre a Valid Input")
                 break 
