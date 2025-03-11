@@ -4,7 +4,6 @@ import csv
 import os
 import random
 
-####### CLASSES #######
 class Customer():
     def __init__(self):
         pass
@@ -16,7 +15,7 @@ class Customer():
 
     def new_customer(self):
         try:
-            # new account information
+            
             new_account_type = None
             new_account_first_name = None
             new_account_last_name = None
@@ -33,7 +32,7 @@ class Customer():
             while new_account_pass == None:
                 new_account_pass = input("Please enter a password")
             add_new_row(random_id=random_id, type_acct=new_account_type, first_name=new_account_first_name, last_name=new_account_last_name, password=new_account_pass)
-            # quit program
+         
         except Exception as e:
             print(e) 
 
@@ -44,16 +43,20 @@ class Customer():
                 if l['checking'] == "":
                     l['checking'] = 0
                     print("Your Checking Account Has Been Created")
-                  
-                else:
+                   
+                elif l['savings'] == "": 
                     l['savings'] = 0
                     print("Your Savings Account Has Been Created")
-                break
+                    
+                else:
+                    print("You Aready Have Both Accounts")
+                    break
+                
         save_changes(l)
 
 # 1.1 Seed Data to CSV
 customers_info = [
-    { 'account_id': '10006', 'first_name': 'Yazeed', 'last_name': "Booth", 'password': "b8wf5", 'checking': "", 'savings': ""},
+    { 'account_id': '10006', 'first_name': 'Leena', 'last_name': "Alomar", 'password': "b8wf5", 'checking': "", 'savings': ""},
     { 'account_id': '10007', 'first_name': 'Devlin', 'last_name': "Dawkins", 'password': "bdfghdf8wf5", 'checking': "", 'savings': ""},
     { 'account_id': '10008', 'first_name': 'Kristina', 'last_name': "Da-Silva", 'password': "b8wdff5", 'checking': "", 'savings': ""},
 ]
@@ -158,11 +161,8 @@ class User_login(Customer):
                 return 
             case "4":
                 return Customer.new_acc_type(self,self.user_id)
-            #type_ser = "Q"
+          
 
-
-
-   
 class Withdraw():
     def __init__(self):
         pass  
@@ -175,16 +175,17 @@ class Withdraw():
                 if acco_type == "1":
                     if i['account_id'] == account_id and i['checking'] != "":
                         withdraw_input = input("Please Enter The Amount of Money You Would Like To Withdraw:")
-                        i['checking'] -= withdraw_input
+                        i['checking'] = int(i['checking']) -  int(withdraw_input)
+                        print("Your Checking Account Has Been Updated")
+                        break
+                elif acco_type == "2":
+                    if i['account_id'] == account_id and i['savings'] != "":
+                        withdraw_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
+                        i['savings'] = int(i['savings']) - int(withdraw_input)
                         print("Your Checking Account Has Been Updated")
                         break
                 else:
-                    if i['account_id'] == account_id and i['savings'] != "":
-                        withdraw_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
-                        i['savings'] -= withdraw_input
-                        print("Your Checking Account Has Been Updated")
-                        break
-
+                    print("Please Entre a Valid Input")
             save_changes(i)       
 
         except Exception as e:
@@ -203,18 +204,20 @@ class Deposit():
                 if account_type == "1":
                     if i['account_id'] == account_id and i['checking'] != "":
                         money_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
-                        i['checking'] += money_input
-                        print("Your Checking Account Has Been Updated")
+                        i['checking'] = int(i['checking']) + int(money_input)
+                        print("Your Checking Account Has Been Updated:")      
                         break
-                else:
+                elif account_type == "2":
                     if i['account_id'] == account_id and i['savings'] != "":
                         money_input = input("Please Enter The Amount of Money You Would Like To Deposit:")
-                        i['savings'] += money_input
+                        i['savings'] =  int(i['savings']) + int(money_input)
                         print("Your Checking Account Has Been Updated")
+                        print(i['savings'])      
                         break
+                else:
+                    print("Please Entre a Valid Input")
 
             save_changes(i)       
-
         except Exception as e:
             print(e)
 
