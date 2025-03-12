@@ -174,7 +174,7 @@ class User_login(Customer):
 
 class Withdraw():
     def __init__(self):
-        pass  
+        pass
     def user_withdraw(self, account_id): 
         lists = read_csv()
         try: 
@@ -187,16 +187,22 @@ class Withdraw():
             while withdraw_from is not None and withdraw_from in wi_type:
                 wi_from = wi_type[withdraw_from]
                 for s in lists:
-                    if int(withdraw_input) <= 100 and int(s[wi_from]) >= 0:
+                    if int(withdraw_input) <= 100:
                         if s['account_id'] == account_id and s[wi_from] != "":
                             s[wi_from]= int(s[wi_from]) - int(withdraw_input)
                             print("Your Account Has Been Updated , This is Your Current Balance :")
-                            print(s[wi_from])      
-                            break
-                        else:
-                            print("Please Entre a Valid Input")
-                else:
-                    print("Please Entre a Valid Input")
+                            print(s[wi_from])
+                            if int(s[wi_from]) < 0:
+                                Overdraft.user_overdraft(self,account_id)
+                                if int(s[wi_from]) <= -100:
+                                    print("Your Account Is Less Than -100")
+                                break
+                    else:
+                        print("Please Entre a Valid Input")
+                        break
+                            
+                # else:
+                #     print("Please Entre a Valid Input")
                 break 
             save_changes(s) 
                     
@@ -233,35 +239,59 @@ class Deposit():
             print(e)
 
 
-class Transfer():
-    def __init__(self):
-        pass  
+# class Transfer():
+#     def __init__(self):
+#         pass  
 
-    def user_Transfer(self, account_id): 
-        lists = read_csv()
-        try: 
-            re_type={
-                "1": "checking",
-                "2": "savings",
-            }
-            tranfer_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
-            transfer_from=input("What Type of Account Would You Like to Transfer To? : 1-Checking 2-Savings :")
-            while transfer_from is not None and transfer_from in re_type:
-                tr_from = re_type[transfer_from]
-                for s in lists:
-                    if s['account_id'] == account_id and s[tr_from] != "":
-                        s[tr_from]= int(s[tr_from]) - int(transfer_input)
-                        transfer_to = input("What Type of Account Would You Like to Transfer To? : 1-Checking 2-Savings :")
-                        transfer_id=input("Please Entre The Transferd Account ID :")
-                        tr_to=re_type[transfer_to]
-                        if s['account_id'] == account_id and s[tr_from] != "":
-                            s[tr_from]= int(s[tr_from]) + int(transfer_input)
-                            print("The Amount of Money is Transferd")
-                    else:
-                        print("Please Entre a Valid Input")
-            save_changes(s)       
-        except Exception as e:
-            print(e)
+#     def user_Transfer(self, account_id): 
+#         wi_type={
+#             "1": "checking",
+#             "2": "savings",
+#         }
+#         withdraw_input = input("Please Enter The Amount of Money You Would Like To Withdraw :")
+#         withdraw_from=input("What Type of Account Would You Like to Withdraw To? : 1-Checking 2-Savings :")
+#         while withdraw_from is not None and withdraw_from in wi_type:
+#                 wi_from = wi_type[withdraw_from]
+#                 for s in lists:
+#                     if int(withdraw_input) <= 100 and int(s[wi_from]) >= 0:
+#                         if s['account_id'] == account_id and s[wi_from] != "":
+#                             s[wi_from]= int(s[wi_from]) - int(withdraw_input)
+#                             print("Your Account Has Been Updated , This is Your Current Balance :")
+#                             print(s[wi_from])      
+#                             break
+#                             tr_id= input("Entre The User ID ")
+#                                 if s['account_id'] == tr_id and s[withdraw_from] != "":
+#                                     s[withdraw_from]= int(s[withdraw_from]) + int(withdraw_input)    
+#                                     break
+#                             if  (int(s[wi_from]) - int(withdraw_input))>= -100:
+#                                 print("Your Account Is Less Than -100")
+#                         else:
+#                             print("Please Entre a Valid Input")
+#                 else:
+#                     print("Please Entre a Valid Input")
+#                 break 
+#             save_changes(s) 
+                    
+#         except Exception as e:
+#             print(e)
+
+
+
+
+
+
+
+#         # lists = read_csv()
+#         # try:
+#         #     withdraw = Withdraw()
+#         #     withdraw.user_withdraw(account_id)
+#         #     deposit = Deposit()
+#         #     tr= input("Entre The User ID You Want To Tranfer Money To : ")
+#         #     deposit.user_deposit(tr)
+
+#         #     save_changes(s)       
+#         # except Exception as e:
+#         #     print(e)
 
 
 class Overdraft():
