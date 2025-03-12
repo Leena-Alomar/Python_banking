@@ -263,7 +263,7 @@ class Transfer():
                     else:
                         print("Please Entre a Valid Input")
                         break   
-                        
+
                     tr_id= input("Entre The User ID :")
                     tr_to=input("What Type of Account Would You Like to Transfer Money From ? : 1-Checking 2-Savings :")
                     while tr_to is not None and tr_to in tr_type:
@@ -285,21 +285,6 @@ class Transfer():
         except Exception as e:
             print(e)
 
-
-
-
-
-#         # lists = read_csv()
-#         # try:
-#         #     withdraw = Withdraw()
-#         #     withdraw.user_withdraw(account_id)
-#         #     deposit = Deposit()
-#         #     tr= input("Entre The User ID You Want To Tranfer Money To : ")
-#         #     deposit.user_deposit(tr)
-
-#         #     save_changes(s)       
-#         # except Exception as e:
-#         #     print(e)
 
 
 class Overdraft():
