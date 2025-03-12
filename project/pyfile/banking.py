@@ -7,8 +7,6 @@ import random
 class Customer():
     def __init__(self):
         pass
-    
-    # def start_session():
 
     def display_msg(self):
         print("Welcome to the Banking App")
@@ -90,7 +88,6 @@ def read_csv():
             return customer_list
     except csv.Error as e:
         print(e)
-# i ther
 
 # 5.0 Add Individual Row => "a+" option will allow reading and APPENDING to file
 def add_new_row(random_id, type_acct, first_name, last_name, password):
@@ -192,10 +189,12 @@ class Withdraw():
                             s[wi_from]= int(s[wi_from]) - int(withdraw_input)
                             print("Your Account Has Been Updated , This is Your Current Balance :")
                             print(s[wi_from])
+                            save_changes(s)
                             if int(s[wi_from]) < 0:
                                 Overdraft.user_overdraft(self,account_id)
+                                save_changes(s)
                                 if int(s[wi_from]) <= -100:
-                                    print("Your Account Is Less Than -100")
+                                    print("Your Account Is Less Than -100")   
                                 break
                     else:
                         print("Please Entre a Valid Input")
@@ -239,43 +238,52 @@ class Deposit():
             print(e)
 
 
-# class Transfer():
-#     def __init__(self):
-#         pass  
+class Transfer():
+    def __init__(self):
+        pass  
 
-#     def user_Transfer(self, account_id): 
-#         wi_type={
-#             "1": "checking",
-#             "2": "savings",
-#         }
-#         withdraw_input = input("Please Enter The Amount of Money You Would Like To Withdraw :")
-#         withdraw_from=input("What Type of Account Would You Like to Withdraw To? : 1-Checking 2-Savings :")
-#         while withdraw_from is not None and withdraw_from in wi_type:
-#                 wi_from = wi_type[withdraw_from]
-#                 for s in lists:
-#                     if int(withdraw_input) <= 100 and int(s[wi_from]) >= 0:
-#                         if s['account_id'] == account_id and s[wi_from] != "":
-#                             s[wi_from]= int(s[wi_from]) - int(withdraw_input)
-#                             print("Your Account Has Been Updated , This is Your Current Balance :")
-#                             print(s[wi_from])      
-#                             break
-#                             tr_id= input("Entre The User ID ")
-#                                 if s['account_id'] == tr_id and s[withdraw_from] != "":
-#                                     s[withdraw_from]= int(s[withdraw_from]) + int(withdraw_input)    
-#                                     break
-#                             if  (int(s[wi_from]) - int(withdraw_input))>= -100:
-#                                 print("Your Account Is Less Than -100")
-#                         else:
-#                             print("Please Entre a Valid Input")
-#                 else:
-#                     print("Please Entre a Valid Input")
-#                 break 
-#             save_changes(s) 
+    def user_Transfer(self, account_id): 
+        lists = read_csv()
+        try:
+            tr_type={
+                "1": "checking",
+                "2": "savings",
+            }
+            tr_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
+            tr_from=input("What Type of Account Would You Like to Transfer Money From ? : 1-Checking 2-Savings :")
+            while tr_from is not None and tr_from in tr_type:
+                    transfer_from = tr_type[tr_from]
+                    for s in lists:
+                        if s['account_id'] == account_id and int(s[transfer_from]) >= int(tr_input):
+                            s[transfer_from]= int(s[transfer_from]) - int(tr_input)
+                            print("Your Account Has Been Updated , This is Your Current Balance :")
+                            print(s[transfer_from])   
+                            save_changes(s)  
+                            break
+                    else:
+                        print("Please Entre a Valid Input")
+                        break   
+                        
+                    tr_id= input("Entre The User ID :")
+                    tr_to=input("What Type of Account Would You Like to Transfer Money From ? : 1-Checking 2-Savings :")
+                    while tr_to is not None and tr_to in tr_type:
+                        tranfer_to=  tr_type[tr_to]
+                        for s1 in lists:
+                            if s1['account_id'] == tr_id and s1[transfer_from] != "":
+                                s1[transfer_from]= int(s1[transfer_from]) + int(tr_input) 
+                                print("The Amount Of Money Is Transferd :") 
+                                save_changes(s1)
+                                break
+                            
+                        else:
+                            print("Please Entre a Valid Input")
+                            break
+                                
+                        break 
+            save_changes(s) 
                     
-#         except Exception as e:
-#             print(e)
-
-
+        except Exception as e:
+            print(e)
 
 
 
@@ -315,17 +323,15 @@ class Overdraft():
                             s[over]= int(s[over]) - 35      
                             print("You are chared with fee of 35$")
                             if int(s[over]) < -70:
-                                print("Your account have been deactivate")
+                                print("Your Account Status : Deactivate")
                                 save_changes(s) 
                                 break
-                                # s['status'] = 'deactive'
                         else:
-                            print("Your account have been activated")
-                                # s['status'] = 'active'
+                            print("Your Account Status : Activated")
                             save_changes(s)
                             break 
-                    else:
-                        print("Entre a Valid Input")  
+                    # else:
+                    #     print("Entre a Valid Input")  
                 break
         except Exception as e:
             print(e)
