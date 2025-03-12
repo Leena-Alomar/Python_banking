@@ -182,8 +182,8 @@ class Withdraw():
                 "1": "checking",
                 "2": "savings",
             }
-            withdraw_input = input("Please Enter The Amount of Money You Would Like To Deposit :")
-            withdraw_from=input("What Type of Account Would You Like to Deposit To? : 1-Checking 2-Savings :")
+            withdraw_input = input("Please Enter The Amount of Money You Would Like To Withdraw :")
+            withdraw_from=input("What Type of Account Would You Like to Withdraw To? : 1-Checking 2-Savings :")
             while withdraw_from is not None and withdraw_from in wi_type:
                 wi_from = wi_type[withdraw_from]
                 for s in lists:
