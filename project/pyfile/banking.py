@@ -52,7 +52,7 @@ class Customer():
                     print("You Aready Have Both Accounts")
                     break
                 
-        save_changes(l)
+            save_changes(l)
 
 # 1.1 Seed Data to CSV
 customers_info = [
@@ -108,11 +108,19 @@ def add_new_row(random_id, type_acct, first_name, last_name, password):
         print(e)
 
 def save_changes(n):
-      with open("banking.csv", "a+") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writerow(n)
-            
-
+    accounts_info = []
+    with open('banking.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            accounts_info.append(row)
+    
+    with open('banking.csv', 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for account in accounts_info:
+            if account['account_id'] == n['account_id']:
+                account = n
+            writer.writerow(account)
 
 class User_login(Customer):
     def __init__(self):
@@ -276,19 +284,19 @@ class Overdraft():
                         if int(s[over]) < 0:
                             s[over]= int(s[over]) - 35      
                             print("You are chared with fee of 35$")
-                            
                             if int(s[over]) < -70:
                                 print("Your account have been deactivate")
-                                # s['status'] = 'deactive'
+                                save_changes(s) 
                                 break
+                                # s['status'] = 'deactive'
                         else:
                             print("Your account have been activated")
                                 # s['status'] = 'active'
-                            break
-            else:
-                print("Entre a Valid Input")  
-            save_changes(s) 
-                    
+                            save_changes(s)
+                            break 
+                    else:
+                        print("Entre a Valid Input")  
+                break
         except Exception as e:
             print(e)
 # class 
@@ -302,5 +310,4 @@ class Overdraft():
 # c.new_customer()
 l=User_login()
 l.login()
-
 
