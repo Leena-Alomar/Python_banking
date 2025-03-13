@@ -24,7 +24,7 @@ class Customer():
             type_responses = ["1", "2", "Q"]
             account_types = { "1": "Checking Account", "2": "Savings Account" }
             while new_account_type == None and new_account_type not in type_responses:
-                new_account_type = input("What Type of Account Would You Like to Creat? \U0001F538 1-Checking Account \U0001F538 2-Saving Account: ") 
+                new_account_type = input("\U0001F7E3 What Type of Account Would You Like to Creat? \U0001F538 1-Checking Account \U0001F538 2-Saving Account: ") 
             while new_account_first_name == None:
                 new_account_first_name = input("\U0001F7E3 Please Enter Your First Name :")
             while new_account_last_name == None:
@@ -54,6 +54,7 @@ class Customer():
                 
             save_changes(l)
 
+        self.services_user_list()
 customers_info = [
     { 'account_id': '10006', 'first_name': 'Leena', 'last_name': "Alomar", 'password': "p1", 'checking': "", 'savings': ""},
     { 'account_id': '10007', 'first_name': 'Devlin', 'last_name': "Dawkins", 'password': "p2", 'checking': "", 'savings': ""},
@@ -158,7 +159,7 @@ class User_login(Customer):
         while services_type == None and services_type not in services_respone:
             print("______________________________________")
             print("     ") 
-            services_type = input(f"Now What Kind of Services Would You Like to Do?  \U0001F538 1 - {offer_services['1']}, \U0001F538 2 - {offer_services['2']}, \U0001F538 3 - {offer_services['3']},  \U0001F538 4 - {offer_services['4']}  :")      
+            services_type = input(f"\U0001F7E3 Now What Kind of Services Would You Like to Do?  \U0001F538 1 - {offer_services['1']}, \U0001F538 2 - {offer_services['2']}, \U0001F538 3 - {offer_services['3']},  \U0001F538 4 - {offer_services['4']}  :")      
         match services_type:
             case "1":
                 return Withdraw.user_withdraw(self,self.user_id) 
@@ -182,7 +183,7 @@ class Withdraw():
             print("______________________________________")
             print("     ") 
             withdraw_input = input("\U0001F7E3 Please Enter The Amount of Money You Would Like To Withdraw :")
-            withdraw_from=input("What Type of Account Would You Like to Withdraw To? :  \U0001F538 1-Checking  \U0001F538 2-Savings :")
+            withdraw_from=input("\U0001F7E3 What Type of Account Would You Like to Withdraw To? :  \U0001F538 1-Checking  \U0001F538 2-Savings :")
             while withdraw_from is not None and withdraw_from in wi_type:
                 wi_from = wi_type[withdraw_from]
                 for s in lists:
@@ -208,7 +209,7 @@ class Withdraw():
                     
         except Exception as e:
             print(e)
-            
+        self.services_user_list()    
 
 class Deposit():
     def __init__(self):
@@ -222,8 +223,8 @@ class Deposit():
             }
             print("______________________________________")
             print("     ") 
-            deposit_input = input("Please Enter The Amount of Money You Would Like To Deposit :")
-            deposit_from=input("What Type of Account Would You Like to Deposit To? :  \U0001F538 1-Checking   \U0001F538 2-Savings :")
+            deposit_input = input("\U0001F7E3 Please Enter The Amount of Money You Would Like To Deposit :")
+            deposit_from=input("\U0001F7E3 What Type of Account Would You Like to Deposit To? :  \U0001F538 1-Checking   \U0001F538 2-Savings :")
             while deposit_from is not None and deposit_from in de_type:
                 de_from = de_type[deposit_from]
                 for s in lists:
@@ -239,7 +240,7 @@ class Deposit():
                     
         except Exception as e:
             print(e)
-
+        self.services_user_list()
 
 class Transfer():
     def __init__(self):
@@ -254,8 +255,8 @@ class Transfer():
             }
             print("______________________________________")
             print("     ") 
-            tr_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
-            tr_from=input("What Type of Account Would You Like to Transfer Money From ? :  \U0001F538 1-Checking  \U0001F538 2-Savings :")
+            tr_input = input("\U0001F7E3 Please Enter The Amount of Money You Would Like To Transfer :")
+            tr_from=input("\U0001F7E3 What Type of Account Would You Like to Transfer Money From ? :  \U0001F538 1-Checking  \U0001F538 2-Savings :")
             s1_account_match = False
             while tr_from is not None and tr_from in tr_type:
                 transfer_from = tr_type[tr_from]
@@ -268,8 +269,8 @@ class Transfer():
                         break
  
                 break
-            tr_id= input("Entre The User ID :")
-            tr_to=input("What Type of Account Would You Like to Transfer Money To ? :  \U0001F5381-Checking  \U0001F538 2-Savings :")
+            tr_id= input("\U0001F7E3 Entre The User ID :")
+            tr_to=input("\U0001F7E3 What Type of Account Would You Like to Transfer Money To ? :  \U0001F538 1-Checking  \U0001F538 2-Savings :")
             while tr_to is not None and tr_to in tr_type:
                 transfer_to = tr_type[tr_to]
                 for s1 in lists:
@@ -300,6 +301,7 @@ class Transfer():
         except Exception as e:
             print(e)
 
+        self.services_user_list()
     
 
 
@@ -323,7 +325,6 @@ class Overdraft():
                     if s['account_id'] == account_id and s[over] != "":
                         if int(s[over]) < 0:
                             result = s[over]= int(s[over]) - 35
-                            print('result', result)
                             print('account status', s[over])
                             save_changes(s) 
                             print("You are chared with fee of 35$")
@@ -341,9 +342,9 @@ class Overdraft():
             print(e)
 
 
-# c=Customer()
-# c.display_msg()
-# c.new_customer()
+c=Customer()
+c.display_msg()
+c.new_customer()
 l=User_login()
 l.login()
 
