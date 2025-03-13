@@ -24,13 +24,13 @@ class Customer():
             type_responses = ["1", "2", "Q"]
             account_types = { "1": "Checking Account", "2": "Savings Account" }
             while new_account_type == None and new_account_type not in type_responses:
-                new_account_type = input("What Type of Account Would You Like to Creat? (\U0001F538 1-Checking Account \U0001F538 2-Saving Account): ") 
+                new_account_type = input("What Type of Account Would You Like to Creat? \U0001F538 1-Checking Account \U0001F538 2-Saving Account: ") 
             while new_account_first_name == None:
                 new_account_first_name = input("\U0001F7E3 Please Enter Your First Name :")
             while new_account_last_name == None:
-                new_account_last_name = input(" \U0001F7E3 Please Enter Your Last Name :")
+                new_account_last_name = input("\U0001F7E3 Please Enter Your Last Name :")
             while new_account_pass == None:
-                new_account_pass = input(" \U0001F7E3 Please Enter Your Password :")
+                new_account_pass = input("\U0001F7E3 Please Enter Your Password :")
             add_new_row(random_id=random_id, type_acct=new_account_type, first_name=new_account_first_name, last_name=new_account_last_name, password=new_account_pass)
          
         except Exception as e:
@@ -268,8 +268,8 @@ class Transfer():
                         break
  
                 break
-            tr_to=input("What Type of Account Would You Like to Transfer Money To ? :  \U0001F5381-Checking  \U0001F538 2-Savings :")
             tr_id= input("Entre The User ID :")
+            tr_to=input("What Type of Account Would You Like to Transfer Money To ? :  \U0001F5381-Checking  \U0001F538 2-Savings :")
             while tr_to is not None and tr_to in tr_type:
                 transfer_to = tr_type[tr_to]
                 for s1 in lists:
@@ -285,13 +285,14 @@ class Transfer():
                     for s in lists:
                         if s['account_id'] == account_id:
                             s[transfer_from]= int(s[transfer_from]) + int(tr_input)
-                    print("Please Entre a Valid Input  \U0000274C")
+                            save_changes(s) 
+                    print("Please Entre a Valid Input\U0000274C")
                 break
             if tr_to != tr_type['1'] or tr_to != tr_type['2']:
                 for s in lists:
                     if s['account_id'] == account_id:
                         s[transfer_from]= int(s[transfer_from]) + int(tr_input)
-                print("Please Entre a Valid Input  \U0000274C")        
+            
             save_changes(s) 
 
 
@@ -340,9 +341,9 @@ class Overdraft():
             print(e)
 
 
-c=Customer()
-c.display_msg()
-c.new_customer()
+# c=Customer()
+# c.display_msg()
+# c.new_customer()
 l=User_login()
 l.login()
 
