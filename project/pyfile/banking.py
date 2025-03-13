@@ -340,9 +340,9 @@ class Overdraft():
             print(e)
 
 
-# c=Customer()
-# c.display_msg()
-# c.new_customer()
+c=Customer()
+c.display_msg()
+c.new_customer()
 l=User_login()
 l.login()
 
