@@ -153,10 +153,10 @@ class User_login(Customer):
     def services_user_list(self):
         self.customer_login = Customer
         services_type = None
-        services_respone = ["1", "2", "3", "4","5", "Q"]
-        offer_services = { "1": "Withdraw", "2": "Deposit", "3": "Transfer", "4": "Create New Account", "5": "Check Overdraft" }
+        services_respone = ["1", "2", "3", "4", "Q"]
+        offer_services = { "1": "Withdraw", "2": "Deposit", "3": "Transfer", "4": "Create New Account" }
         while services_type == None and services_type not in services_respone:
-            services_type = input(f"Now What Kind of Services Would You Like to Do?  1 - {offer_services['1']}, 2 - {offer_services['2']}, 3 - {offer_services['3']}, 4 - {offer_services['4']}, 5 - {offer_services['5']} :")      
+            services_type = input(f"Now What Kind of Services Would You Like to Do?  1 - {offer_services['1']}, 2 - {offer_services['2']}, 3 - {offer_services['3']}, 4 - {offer_services['4']}  :")      
         match services_type:
             case "1":
                 return Withdraw.user_withdraw(self,self.user_id) 
@@ -166,8 +166,6 @@ class User_login(Customer):
                 return Transfer.user_Transfer(self,self.user_id)
             case "4":
                 return Customer.new_acc_type(self,self.user_id)
-            case "5":
-                return Overdraft.user_overdraft(self,self.user_id)  
 
 class Withdraw():
     def __init__(self):
@@ -191,8 +189,8 @@ class Withdraw():
                             print(s[wi_from])
                             save_changes(s)
                             if int(s[wi_from]) < 0:
-                                Overdraft.user_overdraft(self,account_id)
-                                save_changes(s)
+                                Overdraft.user_overdraft(self,account_id, withdraw_from)
+                                # save_changes(s)
                                 if int(s[wi_from]) <= -100:
                                     print("Your Account Is Less Than -100")   
                                 break
@@ -200,10 +198,9 @@ class Withdraw():
                         print("Please Entre a Valid Input")
                         break
                             
-                # else:
-                #     print("Please Entre a Valid Input")
+                
                 break 
-            save_changes(s) 
+            
                     
         except Exception as e:
             print(e)
@@ -251,46 +248,56 @@ class Transfer():
             }
             tr_input = input("Please Enter The Amount of Money You Would Like To Transfer :")
             tr_from=input("What Type of Account Would You Like to Transfer Money From ? : 1-Checking 2-Savings :")
+            s1_account_match = False
             while tr_from is not None and tr_from in tr_type:
+                transfer_from = tr_type[tr_from]
+                for s in lists:
+                    if s['account_id'] == account_id and int(s[transfer_from]) >= int(tr_input):
+                        s[transfer_from]= int(s[transfer_from]) - int(tr_input)
+                        print("Your Account Has Been Updated , This is Your Current Balance :")
+                        print(s[transfer_from])   
+                        save_changes(s)  
+                        break
+ 
+                break
+            tr_to=input("What Type of Account Would You Like to Transfer Money To ? : 1-Checking 2-Savings :")
+            tr_id= input("Entre The User ID :")
+            while tr_to is not None and tr_to in tr_type:
+                transfer_to = tr_type[tr_to]
+                for s1 in lists:
+                    if s1['account_id'] == tr_id and s1[transfer_to] != "":
+                        s1_account_match = True
+                        s1[transfer_to]= int(s1[transfer_to]) + int(tr_input)
+                        print("The Amount Of Money Is Transferd :") 
+                        print(tr_input)
+                        save_changes(s1)
+                        return
+                if s1_account_match == False:
                     transfer_from = tr_type[tr_from]
                     for s in lists:
-                        if s['account_id'] == account_id and int(s[transfer_from]) >= int(tr_input):
-                            s[transfer_from]= int(s[transfer_from]) - int(tr_input)
-                            print("Your Account Has Been Updated , This is Your Current Balance :")
-                            print(s[transfer_from])   
-                            save_changes(s)  
-                            break
-                    else:
-                        print("Please Entre a Valid Input")
-                        break   
-
-                    tr_id= input("Entre The User ID :")
-                    tr_to=input("What Type of Account Would You Like to Transfer Money From ? : 1-Checking 2-Savings :")
-                    while tr_to is not None and tr_to in tr_type:
-                        tranfer_to=  tr_type[tr_to]
-                        for s1 in lists:
-                            if s1['account_id'] == tr_id and s1[transfer_from] != "":
-                                s1[transfer_from]= int(s1[transfer_from]) + int(tr_input) 
-                                print("The Amount Of Money Is Transferd :") 
-                                save_changes(s1)
-                                break
-                            
-                        else:
-                            print("Please Entre a Valid Input")
-                            break
-                                
-                        break 
+                        if s['account_id'] == account_id:
+                            s[transfer_from]= int(s[transfer_from]) + int(tr_input)
+                    print("Please Entre a Valid Input")
+                break
+            if tr_to != tr_type['1'] or tr_to != tr_type['2']:
+                for s in lists:
+                    if s['account_id'] == account_id:
+                        s[transfer_from]= int(s[transfer_from]) + int(tr_input)
+                print("Please Entre a Valid Input")        
             save_changes(s) 
-                    
+
+
+
         except Exception as e:
             print(e)
 
+    
 
 
 class Overdraft():
     def __init__(self):
         pass  
-    def user_overdraft(self, account_id): 
+    def user_overdraft(self, account_id, account_from): 
         lists = read_csv()
         count = 0
         try: 
@@ -299,36 +306,34 @@ class Overdraft():
                 "2": "savings",
             }
             
-            overdraft_check=input("What Type of Account Would You Like to Check the Overdraft? : 1-Checking 2-Savings :")
+            overdraft_check=account_from
             while overdraft_check is not None and overdraft_check in o_type:
                 over = o_type[overdraft_check]
                 for s in lists:
                     if s['account_id'] == account_id and s[over] != "":
                         if int(s[over]) < 0:
-                            s[over]= int(s[over]) - 35      
+                            result = s[over]= int(s[over]) - 35
+                            print('result', result)
+                            print('account status', s[over])
+                            save_changes(s) 
                             print("You are chared with fee of 35$")
                             if int(s[over]) < -70:
                                 print("Your Account Status : Deactivate")
-                                save_changes(s) 
-                                break
+                                save_changes(s)
+                            break
                         else:
                             print("Your Account Status : Activated")
                             save_changes(s)
                             break 
-                    # else:
-                    #     print("Entre a Valid Input")  
+                  
                 break
         except Exception as e:
             print(e)
-# class 
-# def init():
-#   Customer.start_session()
 
-# init()
 
-# c=Customer()
-# c.display_msg()
-# c.new_customer()
+c=Customer()
+c.display_msg()
+c.new_customer()
 l=User_login()
 l.login()
 
